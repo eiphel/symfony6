@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add index{% endblock %}
+
+{% block body %}
+    <h1>Add index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for add in adds %}
+            <tr>
+                <td>{{ add.id }}</td>
+                <td>{{ add.name }}</td>
+                <td>{{ add.description }}</td>
+                <td>
+                    <a href="{{ path('add_show', {'id': add.id}) }}">show</a>
+                    <a href="{{ path('add_edit', {'id': add.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('add_new') }}">Create new</a>
+{% endblock %}

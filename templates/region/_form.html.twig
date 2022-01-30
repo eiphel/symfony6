@@ -1,0 +1,64 @@
+{{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+
+    
+    <div id="departments" data-prototype="{{ form_row(form.departments.vars.prototype)|e('html_attr') }}">
+
+        {{ form_row(form.departments) }}
+
+        <span></span>
+
+    </div>
+
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}
+
+{% block js %}
+    <script>
+        let collection, span, boutonAjout;
+
+        window.onload = () => {
+            collection = document.querySelector('#departments');
+            span = collection.querySelector('span');
+
+            boutonAjout = document.createElement('button');
+            boutonAjout.innerText = 'Ajouter';
+            boutonAjout.type = "button";
+            boutonAjout.className = "ajout-departement";
+            span.append(boutonAjout);
+
+            collection.dataset.index = collection.querySelectorAll('input').length / 2; // il y a 2 chps 
+
+            boutonAjout.addEventListener('click', function() {
+                let prototype = collection.dataset.prototype;
+                let index = collection.dataset.index;
+                prototype = prototype.replace(/__name__/g, index);
+
+                let content = document.createElement("html");
+                content.innerHTML = prototype;
+                let newForm = content.querySelector("div");
+
+                let boutonSuppr = document.createElement("button");
+                boutonSuppr.type = "button";
+                boutonSuppr.id = "delete-departement-" + index;
+                boutonSuppr.innerText = "Supprimer ce département";
+                newForm.append(boutonSuppr);
+
+                collection.dataset.index++;
+                let boutonAjout = collection.querySelector(".ajout-departement");
+                span.insertBefore(newForm, boutonAjout);
+
+                boutonSuppr.addEventListener("click", function(){
+                    this.previousElementSibling.parentElement.remove();
+                });
+
+            });
+        }
+
+
+
+    </script>
+{% endblock %}
