@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormInterface;
 
 class RegionType extends AbstractType
 {
@@ -23,6 +25,23 @@ class RegionType extends AbstractType
                 'by_reference' => false // false addDepartment et non set
             ])
         ;
+    }
+
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        usort($view['departments']->children, function (FormView $a, FormView $b) {
+            $objectA = $a->vars['data'];
+            $objectB = $b->vars['data'];
+
+            $posA = $objectA->getName();
+            $posB = $objectB->getName();
+
+            if ($posA == $posB) {
+                return 0;
+            }
+
+            return ($posA < $posB) ? -1 : 1;
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

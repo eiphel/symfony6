@@ -2,15 +2,7 @@
 
     {{ form_row(form.name) }}
 
-    
-    <div id="departments" data-prototype="{{ form_row(form.departments.vars.prototype)|e('html_attr') }}">
-
-        {{ form_row(form.departments) }}
-
-        <span></span>
-
-    </div>
-
+    {{ form_row(form.departments, { 'attr': {'data-prototype': "{{ form_row(form.departments.vars.prototype)|e('html_attr') }}"} }) }}
 
     <button class="btn">{{ button_label|default('Save') }}</button>
 
@@ -18,47 +10,71 @@
 
 {% block js %}
     <script>
-        let collection, span, boutonAjout;
-
         window.onload = () => {
-            collection = document.querySelector('#departments');
-            span = collection.querySelector('span');
+            let containerId = 'region_departments';
+            let container = document.querySelector('#' + containerId);
+            let forms = document.querySelectorAll('[id="' + containerId + '"] > div');
+            let nbForms = forms.length;
+            container.dataset.index = nbForms;
 
-            boutonAjout = document.createElement('button');
-            boutonAjout.innerText = 'Ajouter';
-            boutonAjout.type = "button";
-            boutonAjout.className = "ajout-departement";
-            span.append(boutonAjout);
+            function createButtonDelete() {
+                let button = document.createElement('button');
+                button.type = 'button';
+                button.innerText = 'Supprimer';
+                return button;
+            }
+            
+            // Ajout boutons "Suprimer" 
+            for(let i = 0; i < nbForms; i++) {
+                /*
+                let id = forms[i].firstChild.id;
+                let split = id.split('_');
+                let index = split[split.length-1];
+                console.log(index); */
 
-            collection.dataset.index = collection.querySelectorAll('input').length / 2; // il y a 2 chps 
+                let buttonDelete = createButtonDelete();
 
-            boutonAjout.addEventListener('click', function() {
-                let prototype = collection.dataset.prototype;
-                let index = collection.dataset.index;
+                forms[i].appendChild(buttonDelete);
+
+                // Action bouton "Supprimer"
+                buttonDelete.addEventListener('click', function(){
+                    this.previousElementSibling.parentElement.remove();
+                    container.dataset.index--;
+                });
+            }
+
+            // Ajout bouton "Ajouter"
+            let buttonAddContainer = document.createElement('div');
+            buttonAdd = document.createElement('button');
+            buttonAdd.innerText = 'Ajouter un département';
+            buttonAdd.type = "button";
+            buttonAddContainer.append(buttonAdd);
+            
+            container.append(buttonAddContainer);
+
+            // Action bouton "Ajouter"
+            buttonAdd.addEventListener('click', function() {
+                let prototype = container.dataset.prototype;
+                let index = container.dataset.index;
                 prototype = prototype.replace(/__name__/g, index);
 
-                let content = document.createElement("html");
+                let content = document.createElement("span");
                 content.innerHTML = prototype;
-                let newForm = content.querySelector("div");
 
-                let boutonSuppr = document.createElement("button");
-                boutonSuppr.type = "button";
-                boutonSuppr.id = "delete-departement-" + index;
-                boutonSuppr.innerText = "Supprimer ce département";
-                newForm.append(boutonSuppr);
+                let buttonDelete = createButtonDelete();
 
-                collection.dataset.index++;
-                let boutonAjout = collection.querySelector(".ajout-departement");
-                span.insertBefore(newForm, boutonAjout);
+                content.firstChild.append(buttonDelete);
 
-                boutonSuppr.addEventListener("click", function(){
+                container.dataset.index++;
+
+                container.insertBefore(content.firstChild, buttonAddContainer) ;
+
+                // Action bouton "Supprimer"
+                buttonDelete.addEventListener('click', function(){
                     this.previousElementSibling.parentElement.remove();
+                    container.dataset.index--;
                 });
-
             });
-        }
-
-
-
+        };
     </script>
 {% endblock %}
