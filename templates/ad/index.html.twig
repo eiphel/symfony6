@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add index{% endblock %}
+{% block title %}Ad index{% endblock %}
 
 {% block body %}
-    <h1>Add index</h1>
+    <h1>Ad index</h1>
 
     <table class="table">
         <thead>
@@ -15,14 +15,14 @@
             </tr>
         </thead>
         <tbody>
-        {% for add in adds %}
+        {% for ad in ads %}
             <tr>
-                <td>{{ add.id }}</td>
-                <td>{{ add.name }}</td>
-                <td>{{ add.description }}</td>
+                <td>{{ ad.id }}</td>
+                <td>{{ ad.name }}</td>
+                <td>{{ ad.description }}</td>
                 <td>
-                    <a href="{{ path('add_show', {'id': add.id}) }}">show</a>
-                    <a href="{{ path('add_edit', {'id': add.id}) }}">edit</a>
+                    <a href="{{ path('ad_show', {'id': ad.id}) }}">show</a>
+                    <a href="{{ path('ad_edit', {'id': ad.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('add_new') }}">Create new</a>
+    <a href="{{ path('ad_new') }}">Create new</a>
 {% endblock %}

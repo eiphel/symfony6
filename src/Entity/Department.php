@@ -24,12 +24,12 @@ class Department
     #[ORM\ManyToOne(targetEntity: Region::class, inversedBy: 'departments')]
     private $Region;
 
-    #[ORM\OneToMany(mappedBy: 'department', targetEntity: Add::class)]
-    private $adds;
+    #[ORM\OneToMany(mappedBy: 'department', targetEntity: Ad::class)]
+    private $ads;
 
     public function __construct()
     {
-        $this->adds = new ArrayCollection();
+        $this->ads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,29 +74,29 @@ class Department
     }
 
     /**
-     * @return Collection|Add[]
+     * @return Collection|Ad[]
      */
-    public function getAdds(): Collection
+    public function getAds(): Collection
     {
-        return $this->adds;
+        return $this->ads;
     }
 
-    public function addAdd(Add $add): self
+    public function addAd(Ad $ad): self
     {
-        if (!$this->adds->contains($add)) {
-            $this->adds[] = $add;
-            $add->setDepartment($this);
+        if (!$this->ads->contains($ad)) {
+            $this->ads[] = $ad;
+            $ad->setDepartment($this);
         }
 
         return $this;
     }
 
-    public function removeAdd(Add $add): self
+    public function removeAd(Ad $ad): self
     {
-        if ($this->adds->removeElement($add)) {
+        if ($this->ads->removeElement($ad)) {
             // set the owning side to null (unless already changed)
-            if ($add->getDepartment() === $this) {
-                $add->setDepartment(null);
+            if ($ad->getDepartment() === $this) {
+                $ad->setDepartment(null);
             }
         }
 

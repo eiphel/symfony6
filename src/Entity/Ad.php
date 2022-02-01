@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AddRepository;
+use App\Repository\AdRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AddRepository::class)]
-#[ORM\Table(name: '`add`')]
-class Add
+#[ORM\Entity(repositoryClass: AdRepository::class)]
+#[ORM\Table(name: '`ad`')]
+class Ad
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,7 +20,7 @@ class Add
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'adds')]
+    #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'ads')]
     private $department;
 
     public function getId(): ?int
