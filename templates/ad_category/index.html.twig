@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AdCategory index{% endblock %}
+
+{% block body %}
+    <h1>AdCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ad_category in ad_categories %}
+            <tr>
+                <td>{{ ad_category.id }}</td>
+                <td>{{ ad_category.name }}</td>
+                <td>{{ ad_category.description }}</td>
+                <td>
+                    <a href="{{ path('ad_category_show', {'id': ad_category.id}) }}">show</a>
+                    <a href="{{ path('ad_category_edit', {'id': ad_category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ad_category_new') }}">Create new</a>
+{% endblock %}

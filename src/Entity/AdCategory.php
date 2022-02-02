@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AdRepository;
+use App\Repository\AdCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AdRepository::class)]
-#[ORM\Table(name: '`ad`')]
-class Ad
+#[ORM\Entity(repositoryClass: AdCategoryRepository::class)]
+class AdCategory
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,15 +21,12 @@ class Ad
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'ads')]
-    private $department;
-
-    #[ORM\ManyToMany(targetEntity: AdCategory::class, inversedBy: 'ads')]
-    private $categories;
+    #[ORM\ManyToMany(targetEntity: Ad::class, mappedBy: 'categories')]
+    private $ads;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
+        $this->ads = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,40 +58,35 @@ class Ad
         return $this;
     }
 
-    public function getDepartment(): ?Department
-    {
-        return $this->department;
-    }
-
-    public function setDepartment(?Department $department): self
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|AdCategory[]
+     * @return Collection|Ad[]
      */
-    public function getCategories(): Collection
+    public function getAds(): Collection
     {
-        return $this->categories;
+        return $this->ads;
     }
 
-    public function addCategory(AdCategory $category): self
+    public function addAd(Ad $ad): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
+        if (!$this->ads->contains($ad)) {
+            $this->ads[] = $ad;
+            $ad->addCategory($this);
         }
 
         return $this;
     }
 
-    public function removeCategory(AdCategory $category): self
+    public function removeAd(Ad $ad): self
     {
-        $this->categories->removeElement($category);
+        if ($this->ads->removeElement($ad)) {
+            $ad->removeCategory($this);
+        }
 
         return $this;
     }
-    
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AdCategory{% endblock %}
+
+{% block body %}
+    <h1>Edit AdCategory</h1>
+
+    {{ include('ad_category/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('ad_category_index') }}">back to list</a>
+
+    {{ include('ad_category/_delete_form.html.twig') }}
+{% endblock %}

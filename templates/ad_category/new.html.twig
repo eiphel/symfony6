@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AdCategory{% endblock %}
+
+{% block body %}
+    <h1>Create new AdCategory</h1>
+
+    {{ include('ad_category/_form.html.twig') }}
+
+    <a href="{{ path('ad_category_index') }}">back to list</a>
+{% endblock %}
