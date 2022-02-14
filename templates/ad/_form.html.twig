@@ -1,4 +1,31 @@
+{% import 'macros/_form_macros.html.twig' as form_macros %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+    {# do form.removed_images.setRendered #}
+
+    {{ form_row(form.name) }}
+
+    {{ form_row(form.description) }}
+
+    {{ form_row(form.department) }}
+
+    {{ form_row(form.categories) }}
+
+    {{ form_row(form.upload, { 'attr': {'data-prototype' : form_macros.image_row(form.images.vars.prototype)|e('html')} }) }}
+
+    {{ form_macros.images_block(form.images) }}
+
+    {{ form_macros.removed_images_block(form.removed_images) }}
+
     <button class="btn">{{ button_label|default('Save') }}</button>
+    
 {{ form_end(form) }}
+
+
+<script>
+    window.addEventListener('load',function(event) 
+    {
+        new Upload('ad[upload][]', {fieldDelete : 'ad[removed_images][]'});
+    });
+</script>

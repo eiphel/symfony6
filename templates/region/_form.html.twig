@@ -2,7 +2,7 @@
 
     {{ form_row(form.name) }}
 
-    {{ form_row(form.departments, { 'attr': {'data-prototype': "{{ form_row(form.departments.vars.prototype)|e('html_attr') }}"} }) }}
+    {{ form_row(form.departments) }}
 
     <button class="btn">{{ button_label|default('Save') }}</button>
 

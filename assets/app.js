@@ -11,6 +11,8 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
+import './upload';
+
 async function jsonFetch(url) {
     const response = await fetch(url, {
         headers: {

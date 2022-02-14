@@ -1,0 +1,43 @@
+{% macro image_row(image) %}<div class="item">
+    {% if image.children.name.vars.value is not empty %}
+        {%  set url = image.parent.vars.attr['data-url'] ~ '/' ~ image.children.name.vars.value %}
+    {% else %}
+        {% set url = '__url__' %}
+    {% endif %}
+
+    <img src="{{ url }}" alt="{{ image.children.name.vars.value }}">
+
+    <div class="buttons">
+        <div>
+            <button type="button" data-action="delete" data-name="{{ image.children.name.vars.value }}">Delete</button>
+            <button type="button" data-action="up">Up</button>
+            <button type="button" data-action="down">Down</button>
+            <button type="button" data-action="edit">Edit</button>
+        </div>
+    </div>
+
+    <div class="edit">
+          {{ form_widget(image.children.label) }}<button type="button" data-action="save">OK</button>
+    </div>
+
+    {{ form_widget(image.children.name) }}
+    {{ form_widget(image.children.position) }}
+</div>{% endmacro %}
+
+{% macro images_block(images) %}
+<div id="images_target">
+    {%- for image in images %}
+        {{- _self.image_row(image) -}}
+    {% endfor -%}
+</div>
+{% endmacro %}
+
+{% macro removed_image_row(image) %}
+    <input type="hidden" id="{{ image.vars.id }}" name="{{ image.vars.full_name }}" value="{{ image.vars.value }}">
+{% endmacro %}
+
+{% macro removed_images_block(images) %}
+    {%- for image in images %}
+        {{- _self.removed_image_row(image) -}}
+    {% endfor -%}
+{% endmacro %}

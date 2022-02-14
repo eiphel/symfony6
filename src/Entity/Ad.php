@@ -28,9 +28,13 @@ class Ad
     #[ORM\ManyToMany(targetEntity: AdCategory::class, inversedBy: 'ads')]
     private $categories;
 
+    #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Image::class, orphanRemoval: true, cascade:['persist'])]
+    private $images;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +98,36 @@ class Ad
     public function removeCategory(AdCategory $category): self
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getAd() === $this) {
+                $image->setAd(null);
+            }
+        }
 
         return $this;
     }
