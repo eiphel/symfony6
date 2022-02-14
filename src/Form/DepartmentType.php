@@ -7,6 +7,7 @@ use App\Entity\Region;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
@@ -17,6 +18,7 @@ class DepartmentType extends AbstractType
         $builder
             ->add('name')
             ->add('number')
+            ->add('position', HiddenType::class)
             /*
             ->add('region', EntityType::class, [
                 'class' => Region::class,

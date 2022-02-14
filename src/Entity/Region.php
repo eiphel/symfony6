@@ -19,6 +19,7 @@ class Region
     private $name;
 
     #[ORM\OneToMany(mappedBy: 'Region', targetEntity: Department::class, cascade:['persist'])]
+    #[ORM\OrderBy(['number' => 'DESC'])]
     private $departments;
 
     public function __construct()

@@ -68,7 +68,7 @@
             plugin.field.removeAttribute('required');
         }
 
-        plugin.position()
+        //plugin.position()
 
         plugin.field.addEventListener('change', function() {
             plugin.settings.beforeLoading.call(plugin)

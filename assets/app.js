@@ -12,6 +12,7 @@ import './styles/app.css';
 import './bootstrap';
 
 import './upload';
+import './collectionType';
 
 async function jsonFetch(url) {
     const response = await fetch(url, {

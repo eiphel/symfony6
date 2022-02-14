@@ -18,9 +18,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Validator\Constraints\Length;
 
 class AdType extends AbstractType
 {
@@ -32,11 +30,7 @@ class AdType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //->add('name')
-            ->add('name', TextType::class, [
-                'required' => true,
-                'constraints' => [new Length(['min' => 5])],
-            ])
+            ->add('name')
             ->add('description')
             ->add('department', EntityType::class, [
                 'class' => Department::class,

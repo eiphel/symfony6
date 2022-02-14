@@ -9,72 +9,9 @@
 {{ form_end(form) }}
 
 {% block js %}
-    <script>
-        window.onload = () => {
-            let containerId = 'region_departments';
-            let container = document.querySelector('#' + containerId);
-            let forms = document.querySelectorAll('[id="' + containerId + '"] > div');
-            let nbForms = forms.length;
-            container.dataset.index = nbForms;
-
-            function createButtonDelete() {
-                let button = document.createElement('button');
-                button.type = 'button';
-                button.innerText = 'Supprimer';
-                return button;
-            }
-            
-            // Ajout boutons "Suprimer" 
-            for(let i = 0; i < nbForms; i++) {
-                /*
-                let id = forms[i].firstChild.id;
-                let split = id.split('_');
-                let index = split[split.length-1];
-                console.log(index); */
-
-                let buttonDelete = createButtonDelete();
-
-                forms[i].appendChild(buttonDelete);
-
-                // Action bouton "Supprimer"
-                buttonDelete.addEventListener('click', function(){
-                    this.previousElementSibling.parentElement.remove();
-                    container.dataset.index--;
-                });
-            }
-
-            // Ajout bouton "Ajouter"
-            let buttonAddContainer = document.createElement('div');
-            buttonAdd = document.createElement('button');
-            buttonAdd.innerText = 'Ajouter un département';
-            buttonAdd.type = "button";
-            buttonAddContainer.append(buttonAdd);
-            
-            container.append(buttonAddContainer);
-
-            // Action bouton "Ajouter"
-            buttonAdd.addEventListener('click', function() {
-                let prototype = container.dataset.prototype;
-                let index = container.dataset.index;
-                prototype = prototype.replace(/__name__/g, index);
-
-                let content = document.createElement("span");
-                content.innerHTML = prototype;
-
-                let buttonDelete = createButtonDelete();
-
-                content.firstChild.append(buttonDelete);
-
-                container.dataset.index++;
-
-                container.insertBefore(content.firstChild, buttonAddContainer) ;
-
-                // Action bouton "Supprimer"
-                buttonDelete.addEventListener('click', function(){
-                    this.previousElementSibling.parentElement.remove();
-                    container.dataset.index--;
-                });
-            });
-        };
-    </script>
+<script>
+ window.onload = () => {
+    new CollectionType('region_departments', {managePosition : true})
+}
+</script>
 {% endblock %}

@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th></th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,11 @@
             <tr>
                 <td>{{ region.id }}</td>
                 <td>{{ region.name }}</td>
+                <td>
+                    {% for dep in region.departments %}
+                        {{ dep.number }}  
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{{ path('region_show', {'id': region.id}) }}">show</a>
                     <a href="{{ path('region_edit', {'id': region.id}) }}">edit</a>

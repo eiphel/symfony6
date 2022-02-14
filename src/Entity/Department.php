@@ -27,9 +27,13 @@ class Department
     #[ORM\OneToMany(mappedBy: 'department', targetEntity: Ad::class)]
     private $ads;
 
+    #[ORM\Column(type: 'integer')]
+    private $position;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->position = 0;
     }
 
     public function getId(): ?int
@@ -99,6 +103,18 @@ class Department
                 $ad->setDepartment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

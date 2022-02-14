@@ -33,8 +33,8 @@ class RegionType extends AbstractType
             $objectA = $a->vars['data'];
             $objectB = $b->vars['data'];
 
-            $posA = $objectA->getName();
-            $posB = $objectB->getName();
+            $posA = $objectA->getPosition();
+            $posB = $objectB->getPosition();
 
             if ($posA == $posB) {
                 return 0;
