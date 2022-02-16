@@ -1,0 +1,50 @@
+{% block infinite_form_polycollection_row %}
+    {% set collection = form %}
+<div id="blocks"> 
+
+    <div class="select">
+        <select name="_prototype">
+            {% for key, prototype in collection.vars.prototypes %}
+                {% set form = prototype %}
+                <option value="{{ block('entry_row')|e('html') }}">{{ key }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" class="btn btn-primary" data-action="add">Add</button>
+    </div>
+
+
+    <div class="blocks">
+        {%- for form in collection -%}
+            {{ block('entry_row') }} 
+        {%- endfor -%}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block entry_row %}<div class="block">
+    {{ form_widget(form) }}
+    <div class="buttons">
+        <button class="btn btn-primary" data-action="delete" type="button">Delete</button>
+        <button class="btn btn-primary" data-action="up" type="button">up</button>
+        <button class="btn btn-primary" data-action="down" type="button">down</button>
+    </div>
+</div>{% endblock %}
+
+{% block common_fields %}
+    {{ form_widget(form.identifier) }}
+    {{ form_widget(form.position) }}
+    {{ form_widget(form._type) }}
+{% endblock %}
+
+{% block paragraph_widget %}
+    {{ block('common_fields') }}
+    {{ form_widget(form.content) }}
+{% endblock %}
+
+{% block link_widget %}
+    {{ block('common_fields') }}
+    {{ form_widget(form.title) }}
+    {{ form_widget(form.url) }}
+    {{ form_widget(form.content) }}
+{% endblock %}

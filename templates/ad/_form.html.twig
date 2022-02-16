@@ -1,8 +1,7 @@
-{% import 'macros/_form_macros.html.twig' as form_macros %}
+
+{% import '_form/macros.html.twig' as form_macros %}
 
 {{ form_start(form) }}
-
-    {# do form.removed_images.setRendered #}
 
     {{ form_row(form.name) }}
 

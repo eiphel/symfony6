@@ -62,7 +62,7 @@ class AdType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'attr' => ['data-url' => $this->parameter->get('images_url')]
+                'attr' => ['data-url' => $this->parameter->get('images_url')],
             ])
             ->add('removed_images', CollectionType::class, [
                 'entry_type' => HiddenType::class,

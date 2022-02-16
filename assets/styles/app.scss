@@ -1,0 +1,13 @@
+
+
+@import "~bootstrap/scss/bootstrap";
+
+$background : lightgray;
+
+body {
+    background-color: $background;
+}
+
+::placeholder {
+    color: gray;
+  }  

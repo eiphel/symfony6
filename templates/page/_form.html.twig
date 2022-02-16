@@ -1,0 +1,33 @@
+
+{% form_theme form.blocks '_form/block-theme.html.twig' %}
+
+
+{{ form_start(form) }}
+
+    {{ form_row(form.title) }}
+    {{ form_row(form.slug) }}
+    {{ form_row(form.metaTitle) }}
+    {{ form_row(form.metaDescription) }}
+    {{ form_rest(form) }}
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
+<script>
+    new PolyCollectionType('blocks')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

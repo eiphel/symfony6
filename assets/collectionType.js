@@ -47,6 +47,7 @@
             content.classList.add(plugin.settings.containerItemClassName)
             content.append(buttons(plugin))
             plugin.container.append(content)
+            position(plugin)
             plugin.index++
         });
     }
