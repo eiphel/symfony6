@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category{% endblock %}
+
+{% block body %}
+    <h1>Category</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ category.title }}</td>
+            </tr>
+            <tr>
+                <th>Lft</th>
+                <td>{{ category.lft }}</td>
+            </tr>
+            <tr>
+                <th>Lvl</th>
+                <td>{{ category.lvl }}</td>
+            </tr>
+            <tr>
+                <th>Rgt</th>
+                <td>{{ category.rgt }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ category.slug }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ category.description }}</td>
+            </tr>
+            <tr>
+                <th>Identifier</th>
+                <td>{{ category.identifier }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('category_root_index') }}">back to list</a>
+
+    <a href="{{ path('category_root_edit', {'id': category.id}) }}">edit</a>
+
+    {{ include('category_root/_delete_form.html.twig') }}
+{% endblock %}

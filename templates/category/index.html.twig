@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% set cat = category %}
+
+{% block title %}Category index{% endblock %}
+
+{% block body %}
+    <h1>{{ cat.title }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Up/Down</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.title }}</td>
+                <td>{{ category.slug }}</td>
+                <td><a href="{{ path('category_up', {'id': category.id}) }}" class="btn btn-primary">Up</a>
+                <a href="{{ path('category_down', {'id': category.id}) }}" class="btn btn-primary">Down</a></td>
+                <td>
+                    <a href="{{ path('category_show', {'id': category.id}) }}">show</a>
+                    <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                    <a href="{{ path('category_index', {'id': category.id}) }}">subcategories</a> 
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if cat.parent is not null %}
+        <a href="{{ path('category_index', {'id': cat.parent.id }) }}">{{ cat.parent.title }}</a>
+    {% endif %}
+   
+    <a href="{{ path('category_new', {'id': cat.id }) }}">Create new</a>
+{% endblock %}

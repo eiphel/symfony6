@@ -21,7 +21,7 @@ class UserFixtures extends Fixture
 
         $user = new User();
 
-        $user->setEmail('testt@test.com');
+        $user->setEmail('test@test.com');
         $user->setGender('M');
         $user->setFirstname('Benoît');
         $user->setLastname('Benoît');
@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
 
         $user->setPassword($this->passwordHasher->hashPassword(
             $user,
-            'admin'
+            'test'
         ));
 
         $manager->persist($user);

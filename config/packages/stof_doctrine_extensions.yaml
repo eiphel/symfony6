@@ -2,9 +2,18 @@
 # See the official DoctrineExtensions documentation for more details: https://github.com/Atlantic18/DoctrineExtensions/tree/master/doc/
 stof_doctrine_extensions:
     default_locale: en_US
+    orm:
+      default:
+          tree: true
 
 services:
   gedmo.listener.timestampable:
     class: Gedmo\Timestampable\TimestampableListener
     tags:
       - { name: doctrine.event_subscriber, connection: default }
+  gedmo.listener.tree:
+    class: Gedmo\Tree\TreeListener
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }
+    calls:
+      - [ setAnnotationReader, [ "@annotation_reader" ] ]

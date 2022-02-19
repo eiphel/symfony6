@@ -47,11 +47,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     private $token;
 
     #[ORM\Column(type: 'datetime')]
-    #[GEDMO\Timestampable(['on' => 'create'])]
+    #[Gedmo\Timestampable(['on' => 'create'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
-    #[GEDMO\Timestampable(['on' => 'update'])]
+    #[Gedmo\Timestampable(['on' => 'update'])]
     private $updatedAt;
 
     #[ORM\Column(type: 'boolean')]
