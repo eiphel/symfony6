@@ -1,0 +1,59 @@
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+
+    {% for i in 0..50 %}
+        {% set f = 'category' ~ i %}
+        {% if attribute(form.category, f) is defined %}
+            {{ form_row(attribute(form.category, f)) }}
+        {% endif %}
+    {% endfor %}
+   
+    {{ form_row(form.category.category) }}
+
+    {{ form_row(form.price) }}
+    {{ form_rest(form) }}
+    
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
+<script>
+function dynamicSelects(item, rows)
+{
+    if (item.dataset.haschildren == 'no') { return; }
+
+    let name = item.name.split('[')[2].split(']')[0]
+    let form = item.closest('form')
+    fetch(form.action + '?f=' + name, {
+        method : 'POST',
+        body : new FormData(form),
+        header : {'Content-Type' : 'application/x-www-form-urlencoded; charset=utf-8'}
+    })
+    .then(response => response.text())
+    .then(html => {
+        let content = document.createElement('html');
+        content.innerHTML = html;
+        let _rows = Array.prototype.slice.call(content.querySelectorAll('.category'))
+        _rows.reverse()
+        _rows.forEach(function (item) {
+            rows[0].parentNode.insertBefore(item, rows[0].nextSibling)
+            item.querySelector('select').addEventListener('change', function() {
+                dynamicSelects(this, _rows)
+             })
+        })
+        rows.forEach(function (item) {
+	        item.remove()
+        });
+    })
+}
+
+window.onload = () => {
+    let rows = document.querySelectorAll('.category')
+    for (let i=0; i< rows.length; i++) {
+        rows[i].querySelector('select').addEventListener('change', function() {
+            dynamicSelects(this, rows)
+        })
+    }
+}
+</script>
