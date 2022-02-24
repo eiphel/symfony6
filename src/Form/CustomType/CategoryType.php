@@ -2,8 +2,8 @@
 namespace App\Form\CustomType;
 
 use App\Entity\Category;
-use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormEvents;
 
 class CategoryType extends AbstractType
 {
-    public function __construct(private CategoryRepository $repository, private RequestStack $requestStack) {
+    public function __construct(private EntityManagerInterface $em, private RequestStack $requestStack) {
 
     }
 
@@ -54,6 +54,7 @@ class CategoryType extends AbstractType
                 if ($entity) {
                     $categories = self::getParents($entity);
                     $limit = count($categories)-1;
+                    $repository = $this->em->getRepository($options_['class']);
                     foreach($categories as $key => $category) {
                         if ($key == $limit) {
                             continue;
@@ -62,7 +63,7 @@ class CategoryType extends AbstractType
                         $mapped = $key == $limit-1 ?: false;
                         $data = $categories[$key+1]; 
                         $form->add($name, EntityType::class, array_merge($options_, [
-                            'choices' => $this->repository->getChildren($category, true),
+                            'choices' => $repository->getChildren($category, true),
                             'data' => $data
                         ]));
                     }
@@ -88,6 +89,7 @@ class CategoryType extends AbstractType
                 $categories = [];
                 $i = 0;
                 $position = 0;
+                $repository = $this->em->getRepository($options_['class']);
 
                 foreach($data as $name => $val) {
                     if ($name == $f || $name == $field) { 
@@ -99,12 +101,12 @@ class CategoryType extends AbstractType
                 }
 
                 if (!$value && $position == 0) {
-                    $category = $this->repository->findOneByIdentifier('CATEGORIES_ROOT');
+                    $category = $repository->findOneByIdentifier('CATEGORIES_ROOT');
                 }
                 elseif (!$value && $position) {   
-                    $category = $this->repository->findOneById($categories[$position-1]);
+                    $category = $repository->findOneById($categories[$position-1]);
                 } else {
-                    $category = $this->repository->findOneById($value);
+                    $category = $repository->findOneById($value);
                 }
 
                 foreach($data as $key => $val) {
@@ -115,7 +117,7 @@ class CategoryType extends AbstractType
                     $form->remove($name);  
                 }
 
-                $children = $this->repository->getChildren($category, true);
+                $children = $repository->getChildren($category, true);
                 $haschildren = !empty($children) ?: false;
                 if (!empty($f) && !$haschildren) { $data['@@error'] = ''; }
                 $categories = self::getParents($category);
@@ -128,7 +130,7 @@ class CategoryType extends AbstractType
                 }
 
                 for($i=0; $i < $limit; $i++) {
-                    $choices = $this->repository->getChildren($categories[$i], true);
+                    $choices = $repository->getChildren($categories[$i], true);
                     $name = $i == $limit-1 ? $name_ : $name_ . $i;
                     $mapped = $name == $name_ ?: false;
                     $entity = $name == $name_ ? NULL : $categories[$i+1];
