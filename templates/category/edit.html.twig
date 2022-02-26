@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Edit Category "{{ category.title }}"</h1>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('category/_form.html.twig', {'button_label': 'form.button.update'|trans}) }}
 
     <a href="{{ path('category_index', {'id' : parentCategory is null ? null : parentCategory.id } ) }}">back to list</a>
 

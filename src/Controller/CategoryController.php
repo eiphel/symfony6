@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-#[Route('/category')]
+
+#[Route('/{_locale}/category', requirements:['_locale' => 'fr|en'])]
 class CategoryController extends AbstractController
 {
     const ROOT = 'CATEGORIES_ROOT';
@@ -39,6 +40,7 @@ class CategoryController extends AbstractController
     #[Route('/new/{id}', name: 'category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, Category $category): Response
     {
+
         if ($category->getRoot()->getIdentifier() != self::ROOT) {
             throw new HttpException(500, 'Bad identifier');
         }

@@ -1,0 +1,11 @@
+Symfony.great: J'aime Symfony
+form:
+  label:
+    title: Titre
+    slug: Slug
+    descr: Description
+    parent: Catégorie parente
+  button:  
+    save: Enregistrer
+    update: Modifier
+    delete: Supprimer

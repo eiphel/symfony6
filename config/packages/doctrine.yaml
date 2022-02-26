@@ -8,7 +8,7 @@ doctrine:
         types:
             enum_gender: App\Doctrine\Type\GenderEnumType
         mapping_types:
-            enum: string
+            enum: string   
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -20,8 +20,14 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
             tree:
+                is_bundle: false
                 type: annotation
                 prefix: Gedmo\Tree\Entity
                 dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Tree/Entity"
                 alias: Gedmo
+            translatable:
                 is_bundle: false
+                type: annotation
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
+                alias: Gedmo

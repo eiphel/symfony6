@@ -22,7 +22,7 @@ class AdRepository extends ServiceEntityRepository
     // /**
     //  * @return Ad[] Returns an array of Ad objects
     //  */
-    /*
+    /* */
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('a')
@@ -34,7 +34,7 @@ class AdRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+   
 
     /*
     public function findOneBySomeField($value): ?Ad

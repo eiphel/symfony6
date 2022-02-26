@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-
 class CategoryType extends AbstractType
 {
     public function __construct(private EntityManagerInterface $em, private RequestStack $requestStack, private CategoryToNumberTransformer $transformer)
@@ -26,9 +25,15 @@ class CategoryType extends AbstractType
         $category = $options['data'];
 
         $builder
-            ->add('title')
-            ->add('slug')
-            ->add('description')
+            ->add('title', null, [
+                'label' => 'form.label.title'
+            ])
+            ->add('slug', null, [
+                'label' => 'form.label.slug'
+            ])
+            ->add('description', null, [
+                'label' => 'form.label.descr'
+            ])
         ;
 
         if (!$category->getId()) {
@@ -37,6 +42,7 @@ class CategoryType extends AbstractType
             ]);
         } else {
             $builder->add('parent', ChoiceType::class, [
+                'label' => 'form.label.parent',
                 'choices' => $this->getData($category)
             ]);
         }
@@ -72,7 +78,7 @@ class CategoryType extends AbstractType
         $children = $repo->childrenHierarchy($root);
         $exclude = $repo->childrenHierarchy($category);
         
-        $children = [$root->getId() => $root->getTitle()] + $fct($children);
+        $children = [$root->getId() => (string) $root->getTitle()] + $fct($children);
         $exclude = [$category->getId() => ''] + $fct($exclude);
 
         return array_flip(array_diff_key($children, $exclude));

@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
+use App\Repository\CategoryRepository;
+use App\Entity\Translation\CategoryTranslation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use App\Repository\CategoryRepository;
+use Gedmo\Translatable\Translatable;
+
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[Gedmo\Tree(['type' => 'nested'])]
-class Category
+#[Gedmo\TranslationEntity(class: CategoryTranslation::class)]
+class Category implements Translatable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,6 +23,7 @@ class Category
     private $id;
 
     #[ORM\Column(name: 'title', type: Types::STRING, length: 64)]
+    #[Gedmo\Translatable]
     private $title;
 
     #[Gedmo\TreeLeft]
@@ -48,9 +53,11 @@ class Category
     private $children;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Gedmo\Translatable]
     private $slug;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Gedmo\Translatable]
     private $description;
 
     #[ORM\Column(type: 'string', length: 64, nullable: true)]
@@ -58,6 +65,9 @@ class Category
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private $products;
+
+    #[Gedmo\Locale]
+    private $locale;
 
     public function __construct()
     {
@@ -158,5 +168,10 @@ class Category
         }
 
         return $this;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

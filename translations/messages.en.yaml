@@ -1,0 +1,11 @@
+Symfony.great: Symfony is great
+form:
+  label:
+    title: Title
+    slug: Slug
+    descr: Description
+    parent: Parent category
+  button:  
+    save: Save
+    update: Update
+    delete: Delete
