@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    {{ form_row(form.subject) }}
+    {{ form_row(form.body) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.emailFrom) }}
+    {{ form_row(form.phone) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

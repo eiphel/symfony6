@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email index{% endblock %}
+
+{% block body %}
+
+{% if app.session.flashBag.has('success') %}
+    {% for message in app.flashes('success') %}
+        {{ message }}
+    {% endfor %}
+{% endif %}
+
+
+    <h1>Email index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>EmailFrom</th>
+                <th>EmailTo</th>
+                <th>Subject</th>
+                <th>Body</th>
+                <th>CreatedAt</th>
+                <th>App</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Phone</th>
+                <th>Ip</th>
+                <th>Extra</th>
+                <th>Send</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for email in emails %}
+            <tr>
+                <td>{{ email.id }}</td>
+                <td>{{ email.emailFrom }}</td>
+                <td>{{ email.emailTo }}</td>
+                <td>{{ email.subject }}</td>
+                <td>{{ email.body }}</td>
+                <td>{{ email.createdAt ? email.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ email.app }}</td>
+                <td>{{ email.firstName }}</td>
+                <td>{{ email.lastName }}</td>
+                <td>{{ email.phone }}</td>
+                <td>{{ email.ip }}</td>
+                <td>{{ email.extra ? email.extra|join(', ') : '' }}</td>
+                <td>{{ email.send ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('contact_show', {'id': email.id}) }}">show</a>
+                    <a href="{{ path('contact_edit', {'id': email.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('contact_new') }}">Create new</a>
+{% endblock %}
